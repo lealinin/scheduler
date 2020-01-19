@@ -13,20 +13,13 @@ export default function Button(props) {
       buttonClass += " button--danger";
    }
 
-   return <button className={buttonClass}>{props.children}</button>;
+   return (
+      <button 
+         className={buttonClass}
+         onClick={props.onClick}
+         disabled={props.disabled}
+      >
+         {props.children}
+      </button>
+   );
 }
-
-// export const actionsData = {
-//    onPinTask: action('onPinTask'),
-//    onArchiveTask: action('onArchiveTask'),
-//  };
- 
-//  export const Default = () => {
-//    return <Task task={{ ...taskData }} {...actionsData} />;
-//  };
- 
-//  export const Pinned = () => <Task task={{ ...taskData, state: 'TASK_PINNED' }} {...actionsData} />;
- 
-//  export const Archived = () => (
-//    <Task task={{ ...taskData, state: 'TASK_ARCHIVED' }} {...actionsData} />
-//  );
