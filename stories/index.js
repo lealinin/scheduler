@@ -17,6 +17,7 @@ import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 storiesOf("Button", module)
   .addParameters({
@@ -171,3 +172,34 @@ storiesOf("Button", module)
             onClose={action("onClose")}
           />
         ))
+        .add("Form Edit", () => (
+          <Form 
+          name="Sally Greennails"
+          interviewers={interviewers}
+          interviewer={3}
+          onSave={action("onSave")}
+          onCancel={action("onCancel")}
+          />
+        ))
+        .add("Form Create", () => (
+          <Form
+          interviewers={interviewers}
+          onSave={action("onSave")}
+          onCancel={action("onCancel")}
+          />
+        ))
+
+
+// As part of our Edit story, the Form component should take the following props:
+
+// name:String
+// interviewers:Array
+// interviewer:Number
+// onSave:Function
+// onCancel:Function
+
+// As part of our Create story, the Form component should take the following props:
+
+// interviewers:Array
+// onSave:Function
+// onCancel:Function
