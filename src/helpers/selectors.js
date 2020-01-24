@@ -16,14 +16,30 @@ export function getAppointmentsForDay(state, day) {
   return appointArr;
 }
 
+export function getInterviewersForDay(state, day) {
+  const findDay = state.days.find(element => element.name === day)
+  const interviewerArr = [];
+
+  if (!findDay) {
+    return [];
+  }
+
+  const interviewers = findDay.appointments;
+  // console.log('inerviewers ', interviewers);
+  interviewers.forEach(interviewer => {
+    if (state.interviewers[interviewer]) {
+      interviewerArr.push(state.interviewers[interviewer]);
+    }
+  });
+
+  return interviewerArr;
+}
+
 export function getInterview(state, interview) {
   if (!interview) {
     return null;
   }
 
   const interviewer = state.interviewers[interview.interviewer];
-  return {
-    ...interview,
-    interviewer
-  }
+  return {...interview, interviewer}
 }
