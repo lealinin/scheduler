@@ -107,9 +107,30 @@ export default function Application(props) {
 
     Promise.all([daysPromise, appointPromise, interviewerPromise]).then((all) => {
       console.log(all);
-      setState({...state, days: all[0].data, appointments: all[1].data, interviewers: all[2].data});
+      setState({ ...state, days: all[0].data, appointments: all[1].data, interviewers: all[2].data });
     });
+
   }, []);
+
+    function bookInterview(id, interview) {
+
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      }
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      }
+      return axios
+      .put(`/api/appointments/${id}`, {interview})
+      .then(() => {
+      setState({
+        ...state,
+        appointments
+      });
+    });
+    }
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
@@ -117,20 +138,21 @@ export default function Application(props) {
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
-      return (
-        <Appointment
-          key={appointment.id}
-          id={appointment.id}
-          time={appointment.time}
-          interview={interview}
-          interviewer={appointment.interviewer}
-          interviewers={interviewers}
-          // interviewers={[]}
-          // interviewers={state.interviewers}
-        />
-      );
-    });
-  
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewer={appointment.interviewer}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+      // interviewers={[]}
+      // interviewers={state.interviewers}
+      />
+    );
+  });
+
   return (
     <main className="layout">
       <section className="sidebar">
