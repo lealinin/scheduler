@@ -8,6 +8,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 import useVisualMode from "../../hooks/useVisualMode";
 
@@ -18,6 +19,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -52,6 +55,7 @@ export default function Appointment(props) {
             transition(DELETING, true)
             props.cancelInterview(props.id)
               .then(() => transition(EMPTY))
+              .catch(() => transition(ERROR_DELETE, true))
           }}
           onCancel={() => transition(SHOW)}
         />
@@ -65,6 +69,7 @@ export default function Appointment(props) {
             transition(SAVING);
             props.bookInterview(props.id, save(name, interviewer))
               .then(() => transition(SHOW))
+              .catch(() => transition(ERROR_SAVE, true))
           }}
         />
       )}
@@ -75,16 +80,40 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           interviewer={props.interview.interviewer.id}
           onSave={(name, interviewer) => {
-            transition(SAVING);
+            transition(SAVING)
             props.bookInterview(props.id, save(name, interviewer))
               .then(() => transition(SHOW))
+              .catch(() => transition(ERROR_SAVE, true))
           }}
           onCancel={() => transition(SHOW)}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error 
+        message="Could not save appointment."
+        onClose={() => back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+        message="Could not cancel appointment."
+        onClose={() => back()}
         />
       )}
     </article>
   );
 }
+
+{/* <Error
+            message="Could not save appointment."
+            onClose={action("onClose")}
+          /> */}
+
+
+{/* <Error
+            message="Could not delete appointment."
+            onClose={action("onClose")}
+          /> */}
 
 
 {/* <Form 
