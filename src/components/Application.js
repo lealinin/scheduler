@@ -94,7 +94,7 @@ export default function Application(props) {
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: []
+    // interviewers: []
   });
 
   const setDay = day => setState(prev => ({ ...state, day }));
@@ -112,25 +112,52 @@ export default function Application(props) {
 
   }, []);
 
-    function bookInterview(id, interview) {
+  function bookInterview(id, interview) {
 
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview },
-      }
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      }
-      return axios
-      .put(`/api/appointments/${id}`, {interview})
-      .then(() => {
-      setState({
-        ...state,
-        appointments
-      });
-    });
+    const appointment = {
+      ...state.appointments[id], // new app obj with interview id
+      interview: { ...interview } // clone the interview obj
     }
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    return axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      });
+  }
+
+  // that will use the appointment id to find the right appointment slot and set it's interview data to null
+
+  function cancelInterview(id, interview) {
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: interview && { ...interview }
+    }
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    return axios
+      .delete(`/api/appointments/${id}`, { interview: null })
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      });
+
+  }
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
@@ -147,6 +174,7 @@ export default function Application(props) {
         interviewer={appointment.interviewer}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       // interviewers={[]}
       // interviewers={state.interviewers}
       />
