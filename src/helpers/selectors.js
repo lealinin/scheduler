@@ -24,7 +24,8 @@ export function getInterviewersForDay(state, day) {
     return [];
   }
 
-  const interviewers = findDay.appointments;
+  const interviewers = findDay.interviewers;
+  // const interviewers = findDay.appointments; // had this b/c 2 tests weren't passing
   // console.log('inerviewers ', interviewers);
   interviewers.forEach(interviewer => {
     if (state.interviewers[interviewer]) {
