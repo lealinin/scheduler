@@ -32,8 +32,16 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    return interview;
+    
+    transition(SAVING);
+
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+
   }
+
+  console.log(props);
 
   return (
     <article className="appointment">
@@ -61,20 +69,15 @@ export default function Appointment(props) {
         />
       )}
       {mode === DELETING && <Status message="Deleting" />}
-      {mode === EMPTY || mode === CREATE && (
+      {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
           onCancel={() => back()}
-          onSave={(name, interviewer) => {
-            transition(SAVING);
-            props.bookInterview(props.id, save(name, interviewer))
-              .then(() => transition(SHOW))
-              .catch(() => transition(ERROR_SAVE, true))
-          }}
+          onSave={save}
         />
       )}
       {mode === SAVING && <Status message="Saving" />}
-      {mode === EMPTY || mode === EDIT && (
+      {mode === EDIT && (
         <Form
           name={props.interview.student}
           interviewers={props.interviewers}
