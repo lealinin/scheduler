@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import InterviewerListItem from './InterviewerListItem';
-
 import "components/InterviewerList.scss";
 
 export default function InterviewerList(props) {
@@ -22,3 +22,9 @@ export default function InterviewerList(props) {
     </section>
   )
 }
+
+// saw warning in console when "value: propTypes.string"
+InterviewerList.propTypes = {
+  value: PropTypes.number,
+  onChange: PropTypes.func.isRequired
+};
