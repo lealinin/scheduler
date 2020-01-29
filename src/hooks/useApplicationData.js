@@ -19,7 +19,7 @@ function reducer(state, action) {
     case SET_APPLICATION_DATA:
       return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
     case SET_INTERVIEW: {
-      console.log("state", state, action.id , action.interview)
+      // console.log("state", state, action.id , action.interview)
       return { ...state, appointments: {...state.appointments, [action.id]: { ...state.appointments[action.id], interview: action.interview}}}
     }
     default:
@@ -85,6 +85,37 @@ export default function useApplicationData(initial) {
   // returns an object with four keys
   return { state, setDay, bookInterview, cancelInterview };
 }
+
+// Spots Remaining functionality
+
+// When we add or remove an appointment, we will need to update
+// the number of spots remaining that day
+
+// add new action OR 
+// use an existing one and change the state in two places at the same time
+
+// the appointment id is known when an interview is confirmed or 
+// canceled by the server
+
+/* 
+function updateObjectInArray(array, action) {
+  return array.map((item, index) => {
+    if (index !== action.index) {
+      // This isn't the item we care about - keep it as-is
+      return item
+    }
+
+    // Otherwise, this is the one we want - return an updated value
+    return {
+      ...item,
+      ...action.item
+    }
+  })
+}
+
+
+*/
+
 
 // function bookInterview(id, interview) {
 
