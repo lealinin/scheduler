@@ -32,5 +32,4 @@ console.log("name", props.interviewer.name);
       </section>
     </main>
   );
-
 }
