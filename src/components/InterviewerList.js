@@ -23,7 +23,7 @@ export default function InterviewerList(props) {
   )
 }
 
-// saw warning in console when "value: propTypes.string"
+
 InterviewerList.propTypes = {
   value: PropTypes.number,
   onChange: PropTypes.func.isRequired
