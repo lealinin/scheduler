@@ -20,7 +20,39 @@ function reducer(state, action) {
       return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
     case SET_INTERVIEW: {
       // console.log("state", state, action.id , action.interview)
-      return { ...state, appointments: {...state.appointments, [action.id]: { ...state.appointments[action.id], interview: action.interview}}}
+      // return { ...state, appointments: {...state.appointments, [action.id]: { ...state.appointments[action.id], interview: action.interview}}}
+      let appointment = {}
+      if (action.interview) {
+        appointment = { ...state.appointments[action.id], interview: { ...action.interview } }
+      } else {
+        appointment = { ...state.appointments[action.id], interview: action.interview }
+      }
+      const appointments = { ...state.appointments, [action.id]: appointment }
+
+      //   const appointment = {
+//     ...state.appointments[id], /////////
+//     interview: { ...interview }
+//   }
+
+//   const appointments = {
+//     ...state.appointments, //////////
+//     [id]: appointment
+//   }
+
+      const updateSpots = state.days.map((day) => {
+        for (let appointment of day.appointments) {
+          if (action.id === appointment) {
+            if (action.interview && !state.appointments[action.id].interview) {
+              return { ...day, spots: day.spots - 1 };
+            } else if (!action.interview && state.appointments[action.id].interview) {
+              return { ...day, spots: day.spots + 1 };
+            }
+          }
+        }
+        return day
+      })
+      return { ...state, appointments, days: updateSpots }
+
     }
     default:
       throw new Error(
@@ -56,7 +88,6 @@ export default function useApplicationData(initial) {
   }, []);
 
   function bookInterview(id, interview) {
-    // console.log("INTERVIEW", interview);
 
     return axios
       .put(`/api/appointments/${id}`, { interview })
@@ -97,7 +128,7 @@ export default function useApplicationData(initial) {
 // the appointment id is known when an interview is confirmed or 
 // canceled by the server
 
-/* 
+/*
 function updateObjectInArray(array, action) {
   return array.map((item, index) => {
     if (index !== action.index) {
