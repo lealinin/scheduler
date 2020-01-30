@@ -56,6 +56,7 @@ export default function useApplicationData(initial) {
   }, []);
 
   function bookInterview(id, interview) {
+    // console.log("INTERVIEW", interview);
 
     return axios
       .put(`/api/appointments/${id}`, { interview })
@@ -69,7 +70,7 @@ export default function useApplicationData(initial) {
       });
   }
 
-  function cancelInterview(id, interview) {
+  function cancelInterview(id) {
 
     return axios
       .delete(`/api/appointments/${id}`)
@@ -82,7 +83,6 @@ export default function useApplicationData(initial) {
       });
   }
 
-  // returns an object with four keys
   return { state, setDay, bookInterview, cancelInterview };
 }
 
