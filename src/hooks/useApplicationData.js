@@ -2,15 +2,9 @@ import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 
 
-// define action types as constants
-const SET_DAY = "SET_DAY"; // sets the day
-const SET_APPLICATION_DATA = "SET_APPLICATION_DATA"; // set app data
-const SET_INTERVIEW = "SET_INTERVIEW"; // update an interview for an appointment time
-
-// call actions using constant values - ex. dispatch({ type: ADD, value: 3})
-// reducer receives state and an action and can return the next state
-
-// the reducer will return a new state object each time it handles a dispatched action
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -19,25 +13,16 @@ function reducer(state, action) {
     case SET_APPLICATION_DATA:
       return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
     case SET_INTERVIEW: {
-      // console.log("state", state, action.id , action.interview)
-      // return { ...state, appointments: {...state.appointments, [action.id]: { ...state.appointments[action.id], interview: action.interview}}}
+
       let appointment = {}
+
       if (action.interview) {
         appointment = { ...state.appointments[action.id], interview: { ...action.interview } }
       } else {
         appointment = { ...state.appointments[action.id], interview: action.interview }
       }
+
       const appointments = { ...state.appointments, [action.id]: appointment }
-
-      //   const appointment = {
-//     ...state.appointments[id], /////////
-//     interview: { ...interview }
-//   }
-
-//   const appointments = {
-//     ...state.appointments, //////////
-//     [id]: appointment
-//   }
 
       const updateSpots = state.days.map((day) => {
         for (let appointment of day.appointments) {
@@ -70,7 +55,6 @@ export default function useApplicationData(initial) {
     interviewers: {}
   });
 
-  // const setDay = day => setState(prev => ({ ...state, day })); /////////
   const setDay = day => dispatch({ type: SET_DAY, day });
 
 
@@ -81,7 +65,6 @@ export default function useApplicationData(initial) {
 
     Promise.all([daysPromise, appointPromise, interviewerPromise]).then((all) => {
       console.log(all);
-      // setState({ ...state, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }); //////////
       dispatch({ type: SET_APPLICATION_DATA, days: all[0].data, appointments: all[1].data, interviewers: all[2].data });
     });
 
@@ -116,77 +99,3 @@ export default function useApplicationData(initial) {
 
   return { state, setDay, bookInterview, cancelInterview };
 }
-
-// Spots Remaining functionality
-
-// When we add or remove an appointment, we will need to update
-// the number of spots remaining that day
-
-// add new action OR 
-// use an existing one and change the state in two places at the same time
-
-// the appointment id is known when an interview is confirmed or 
-// canceled by the server
-
-/*
-function updateObjectInArray(array, action) {
-  return array.map((item, index) => {
-    if (index !== action.index) {
-      // This isn't the item we care about - keep it as-is
-      return item
-    }
-
-    // Otherwise, this is the one we want - return an updated value
-    return {
-      ...item,
-      ...action.item
-    }
-  })
-}
-
-
-*/
-
-
-// function bookInterview(id, interview) {
-
-//   const appointment = {
-//     ...state.appointments[id], /////////
-//     interview: { ...interview }
-//   }
-
-//   const appointments = {
-//     ...state.appointments, //////////
-//     [id]: appointment
-//   }
-
-//   return axios
-//     .put(`/api/appointments/${id}`, { interview })
-//     .then(() => {
-//       setState({ ////////
-//         ...state,
-//         appointments
-//       });
-//     });
-// }
-
-// function cancelInterview(id, interview) {
-
-//   const appointment = {
-//     ...state.appointments[id], ////////
-//     interview: interview && { ...interview }
-//   }
-
-//   const appointments = {
-//     ...state.appointments, //////////
-//     [id]: appointment
-//   }
-
-//   return axios
-//     .delete(`/api/appointments/${id}`, { interview: null })
-//     .then(() => {
-//       setState({ /////////
-//         ...state,
-//         appointments
-//       });
-//     });
