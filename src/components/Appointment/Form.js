@@ -26,7 +26,7 @@ export default function Form(props) {
       return;
     }
     
-    if (interviewer == "" || interviewer == null) {
+    if (interviewer === "" || interviewer === null) {
       setError("Please select an interviewer below.");
       return;
     }
