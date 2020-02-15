@@ -32,7 +32,7 @@ npm test
 npm run storybook
 ```
 
-## View the Project
+## To View the Project
 
 1. From the root directory of the project on your host machine, execute ```npm install``` to install the dependencies.
 2. Run ```npm start``` to run the API server (https://github.com/lighthouse-labs/scheduler-api).
