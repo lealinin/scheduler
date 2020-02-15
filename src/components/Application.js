@@ -5,7 +5,6 @@ import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "../h
 import useApplicationData from "../hooks/useApplicationData";
 import "components/Application.scss";
 
-
 export default function Application(props) {
 
   const {
