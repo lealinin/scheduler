@@ -1,10 +1,10 @@
 # Interview Scheduler
 
-A modern client application using the React view library.
+#### A modern client application using the React view library. This application allows users to book and cancel interviews.
 
-## Screenshots
+## App Components
 
-!["SPA View"](https://github.com/lealinin/scheduler/blob/master/docs/1_SPA_Appointment.png)
+!["SPA View"](https://github.com/lealinin/scheduler/blob/master/docs/7_Home-Page.png)
 !["Form Field"](https://github.com/lealinin/scheduler/blob/master/docs/2_Form_Field.png)
 !["Blank Field Message"](https://github.com/lealinin/scheduler/blob/master/docs/3_Blank_Field_Msg.png)
 !["Confirm View"](https://github.com/lealinin/scheduler/blob/master/docs/4_Confirm_Window.png)
@@ -32,3 +32,10 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## View the Project
+
+1. From the root directory of the project on your host machine, execute ```npm install``` to install the dependencies
+2. Run ```npm start``` to run the webpack development server
+3. Run ```npm start``` to run the API server (https://github.com/lighthouse-labs/scheduler-api)
+4. Visit ```http://localhost:8000``` in the browser.
